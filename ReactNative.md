@@ -755,17 +755,297 @@ React Native 支持 `rgb()` 和 `rgba()` 两种十六进制与函数方法
 
 ### 动画
 
+#### `Animated`[#](https://reactnative.cn/docs/next/animations#animated)
+
+[`Animated`](https://reactnative.cn/docs/next/animated)使得开发者可以简洁地实现各种各样的动画和交互方式，并且具备极高的性能。
+
+`Animated`旨在以声明的形式来定义动画的输入与输出，在其中建立一个可配置的变化函数，然后使用`start/stop`方法来控制动画按顺序执行。
+
+ `Animated`仅封装了 6 个可以动画化的组件：`View`、`Text`、`Image`、`ScrollView`、`FlatList`和`SectionList`，不过你也可以使用`Animated.createAnimatedComponent()`来封装你自己的组件。
+
+下面是一个在加载时带有淡入动画效果的视图：
+
+```jsx
+import React, {useRef, useEffect} from 'react';
+import {Animated, Text, View} from 'react-native';
+
+const FadeInView = props => {
+  const fadeAnim = useRef(new Animated.Value(0)).current; // 透明度初始值设为0
+
+  useEffect(() => {
+    Animated.timing(
+      // 随时间变化而执行动画
+      fadeAnim, // 动画中的变量值
+      {
+        toValue: 1, // 透明度最终变为1，即完全不透明
+        duration: 10000, // 让动画持续一段时间
+      },
+    ).start(); // 开始执行动画
+  }, [fadeAnim]);
+
+  return (
+    <Animated.View // 使用专门的可动画化的View组件
+      style={{
+        ...props.style,
+        opacity: fadeAnim, // 将透明度绑定到动画变量值
+      }}>
+      {props.children}
+    </Animated.View>
+  );
+};
+
+// 然后你就可以在组件中像使用`View`那样去使用`FadeInView`了
+export default () => {
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <FadeInView style={{width: 250, height: 50, backgroundColor: 'blue'}}>
+        <Text style={{fontSize: 28, textAlign: 'center', margin: 10}}>
+          Fading in
+        </Text>
+      </FadeInView>
+    </View>
+  );
+};
+
+```
+
+#### 配置动画[#](https://reactnative.cn/docs/next/animations#配置动画)
+
+动画拥有非常灵活的配置项。自定义的或预定义的 easing 函数、延迟、持续时间、衰减系数、弹性常数等都可以在对应类型的动画中进行配置。
+
+`Animated`提供了多种动画类型，其中最常用的要属[`Animated.timing()`](https://reactnative.cn/docs/next/animated#timing)。它可以使用一些预设的`easing`曲线函数来控制动画值的变化速度，也支持自定义的曲线函数。动画中通常使用`easing`曲线函数来控制物体的加速或减速变化。
+
+默认情况下`timing`使用`easeInOut`曲线，它使动画体逐渐加速到最大然后逐渐减速到停止。你可以通过传递`easing`参数来指定不同的变化速度，还支持自定义`duration`持续时间，甚至是动画开始前的`delay`延迟。
+
+下面这个例子创建了一个 2 秒长的动画，在移动目标到最终位置前会稍微往后退一点：
+
+```jsx
+Animated.timing(this.state.xPosition, {
+  toValue: 100,
+  easing: Easing.back(),
+  duration: 2000
+}).start();
+```
+
+Copy
+
+如果想了解更多配置参数，请参阅`Animated`文档的[配置动画](https://reactnative.cn/docs/next/animated#配置动画)章节。
+
+#### 组合动画[#](https://reactnative.cn/docs/next/animations#组合动画)
+
+多个动画可以通过`parallel`（同时执行）、`sequence`（顺序执行）、`stagger`和`delay`来组合使用。它们中的每一个都接受一个要执行的动画数组，并且自动在适当的时候调用`start/stop`。
+
+在`Animated`文档的[组合动画](https://reactnative.cn/docs/next/animated#composing-animations)一节中列出了所有的组合方法。
+
+#### 合成动画值[#](https://reactnative.cn/docs/next/animations#合成动画值)
+
+你可以使用加减乘除以及取余等运算来[把两个动画值合成为一个新的动画值](https://reactnative.cn/docs/next/animated#combining-animated-values)。
+
+#### 插值[#](https://reactnative.cn/docs/next/animations#插值)
+
+所有动画值都可以执行插值（interpolation）操作。插值是指将一定范围的输入值映射到另一组不同的输出值，一般我们使用线性的映射，但是也可以使用 easing 函数。 
+
+默认情况下，它会将曲线外推到给定的范围之外，但您也可以让它钳制输出值。
+
+[`interpolate()`](https://reactnative.cn/docs/next/animated#interpolate)还支持定义多个区间，经常来定义静止区间等。
+
+`interpolate()`还支持到字符串的映射，才能实现颜色以及带有单位值的动画变换。
+
+`interpolate()`还支持还无限的渐变函数，其中有很多在[`Easing`](https://reactnative.cn/docs/next/easing)类中定义，包括二次、指数、贝塞尔等曲线以及步骤、反弹等方法。你可以通过设置、或属性来限制`interpolation`输出`outputRange`。输出区间。默认值是（允许超出），不过你可以使用输出输出值超过。
+
+#### 跟踪动态值[#](https://reactnative.cn/docs/next/animations#跟踪动态值)
+
+动画中所设的值还可以通过跟踪别的值得到。你只要把 toValue 设置成另一个动态值而不是一个普通数字就行了。比如我们可以用弹跳动画来实现聊天头像的闪动，又比如通过`timing`设置`duration:0`来实现快速的跟随。他们还可以使用插值来进行组合：
+
+```jsx
+Animated.spring(follower, { toValue: leader }).start();
+Animated.timing(opacity, {
+  toValue: pan.x.interpolate({
+    inputRange: [0, 300],
+    outputRange: [1, 0]
+  })
+}).start();
+```
+
+The `leader` and `follower` animated values would be implemented using `Animated.ValueXY()`. 是一个方便的处理 2D 交互的办法，譬如旋转或拖拽。它是一个简单的包含了两个`Animated.Value`实例的包装，然后提供了一系列辅助函数，使得`ValueXY`在许多时候可以替代`Value`来使用。比如在上面的代码片段中，`leader`和`follower`可以同时为`valueXY`类型，这样 x 和 y 的值都会被跟踪。
+
+### 跟踪手势[#](https://reactnative.cn/docs/next/animations#跟踪手势)
+
+[`Animated.event`](https://reactnative.cn/docs/next/animated#event)是 Animated 中与输入有关的部分，允许手势或其它事件直接绑定到动态值上。它通过一个结构化的映射语法来完成，使得复杂事件对象中的值可以被正确的解开。第一层是一个数组，允许同时映射多个值，然后数组的每一个元素是一个嵌套的对象。在下面的例子里，你可以发现`scrollX`被映射到了`event.nativeEvent.contentOffset.x`(`event`通常是回调函数的第一个参数)，并且`pan.x`和`pan.y`分别映射到`gestureState.dx`和`gestureState.dy`（`gestureState`是传递给`PanResponder`回调函数的第二个参数）。
+
+#### 在`ScrollView`中使用动画事件的示例[#](https://reactnative.cn/docs/next/animations#在scrollview中使用动画事件的示例)
+
+##### 在`PanResponder`中使用动画事件的示例[#](https://reactnative.cn/docs/next/animations#在panresponder中使用动画事件的示例)
+
+#### 响应当前的动画值[#](https://reactnative.cn/docs/next/animations#响应当前的动画值)
+
+你可能会注意到这里没有一个明显的方法来在动画的过程中读取当前的值——这是出于优化的角度考虑，有些值只有在原生代码运行阶段中才知道。如果你需要在 JavaScript 中响应当前的值，有两种可能的办法：
+
+- `spring.stopAnimation(callback)`会停止动画并且把最终的值作为参数传递给回调函数`callback`——这在处理手势动画的时候非常有用。
+- `spring.addListener(callback)`会在动画的执行过程中持续异步调用`callback`回调函数，提供一个最近的值作为参数。这在用于触发状态切换的时候非常有用，譬如当用户拖拽一个东西靠近的时候弹出一个新的气泡选项。不过这个状态切换可能并不会十分灵敏，因为它不像许多连续手势操作（如旋转）那样在 60fps 下运行。
+
+#### 启用原生动画驱动[#](https://reactnative.cn/docs/next/animations#启用原生动画驱动)
+
+`Animated`的 API 是可序列化的（即可转化为字符串表达以便通信或存储）。通过启用[原生驱动](http://facebook.github.io/react-native/blog/2017/02/14/using-native-driver-for-animated.html)，我们在启动动画前就把其所有配置信息都发送到原生端，利用原生代码在 UI 线程执行动画，而不用每一帧都在两端间来回沟通。如此一来，动画一开始就完全脱离了 JS 线程，因此此时即便 JS 线程被卡住，也不会影响到动画了。
+
+在动画中启用原生驱动非常简单。只需在开始动画之前，在动画配置中加入一行`useNativeDriver: true`，如下所示：
+
+`Animated`本机驱动程序当前并不支持您可以使用的所有内容。主要的限制是你只能为非布局属性设置动画：像`transform`和这样的东西`opacity`会起作用，但 flexbox 和位置属性不会。使用时`Animated.event`，它只适用于直接事件，而不适用于冒泡事件。这意味着它不适用于`PanResponder`但确实适用于`ScrollView#onScroll`.
+
+#### 其他示例[#](https://reactnative.cn/docs/next/animations#additional-examples)
+
+RNTester 应用程序有各种`Animated`使用示例：
+
+- [动画免费应用](https://github.com/facebook/react-native/tree/master/packages/rn-tester/js/examples/Animated/AnimatedGratuitousApp)
+- [原生动画示例](https://github.com/facebook/react-native/blob/master/packages/rn-tester/js/examples/NativeAnimation/NativeAnimationsExample.js)
+
+#### `LayoutAnimation`接口[#](https://reactnative.cn/docs/next/animations#layoutanimation-api)
+
+`LayoutAnimation`允许你在全局范围内`创建`和`更新`动画，这些动画会在下一次渲染或布局周期运行。它常用来更新 flexbox 布局，因为它可以无需测量或者计算特定属性就能直接产生动画。尤其是当布局变化可能影响到父节点（譬如“查看更多”展开动画既增加父节点的尺寸又会将位于本行之下的所有行向下推动）时，如果不使用`LayoutAnimation`，可能就需要显式声明组件的坐标，才能使得所有受影响的组件能够同步运行动画。
+
+注意尽管`LayoutAnimation`非常强大且有用，但它对动画本身的控制没有`Animated`或者其它动画库那样方便，所以如果你使用`LayoutAnimation`无法实现一个效果，那可能还是要考虑其他的方案。
+
+本示例使用预设值，您可以根据需要自定义动画，更多信息请参见[LayoutAnimation.js](https://github.com/facebook/react-native/blob/master/Libraries/LayoutAnimation/LayoutAnimation.js)。
+
 ### 手势响应系统
 
+#### 最佳实践[#](https://reactnative.cn/docs/next/gesture-responder-system#最佳实践)
 
+用户之所以会觉得 web app 和原生 app 在体验上有巨大的差异，触摸响应是一大关键因素。用户的每一个操作都应该具有下列属性：
+
+反馈/高亮 —— 让用户看到他们到底按到了什么东西，以及松开手后会发生什么。取消功能 —— 当用户正在触摸操作时，应该是可以通过把手指移开来终止操作。
+
+### TouchableHighlight 与 Touchable 系列组件[#](https://reactnative.cn/docs/next/gesture-responder-system#touchablehighlight-与-touchable-系列组件)
+
+响应系统用起来可能比较复杂。所以我们提供了一个抽象的`Touchable`实现，用来做“可触控”的组件。这一实现利用了响应系统，使得你可以简单地以声明的方式来配置触控处理。如果要做一个按钮或者网页链接，那么使用`TouchableHighlight`就可以。
+
+#### 响应者的生命周期[#](https://reactnative.cn/docs/next/gesture-responder-system#响应者的生命周期)
+
+一个 View 只要实现了正确的协商方法，就可以成为触摸事件的响应者。我们通过两个方法去“询问”一个 View 是否愿意成为响应者：
+
+- `View.props.onStartShouldSetResponder: (evt) => true,` - 在用户开始触摸的时候（手指刚刚接触屏幕的瞬间），是否愿意成为响应者？
+- `View.props.onMoveShouldSetResponder: (evt) => true,` - 如果 View 不是响应者，那么在每一个触摸点开始移动（没有停下也没有离开屏幕）时再询问一次：是否愿意响应触摸交互呢？
+
+如果 View 返回 true，并开始尝试成为响应者，那么会触发下列事件之一:
+
+- `View.props.onResponderGrant: (evt) => {}` - View 现在要开始响应触摸事件了。这也是需要做高亮的时候，使用户知道他到底点到了哪里。
+- `View.props.onResponderReject: (evt) => {}` - 响应者现在“另有其人”而且暂时不会“放权”，请另作安排。
+
+如果 View 已经开始响应触摸事件了，那么下列这些处理函数会被一一调用：
+
+- `View.props.onResponderMove: (evt) => {}` - 用户正在屏幕上移动手指时（没有停下也没有离开屏幕）。
+- `View.props.onResponderRelease: (evt) => {}` - 触摸操作结束时触发，比如"touchUp"（手指抬起离开屏幕）。
+- `View.props.onResponderTerminationRequest: (evt) => true` - 有其他组件请求接替响应者，当前的 View 是否“放权”？返回 true 的话则释放响应者权力。
+- `View.props.onResponderTerminate: (evt) => {}` - 响应者权力已经交出。这可能是由于其他 View 通过`onResponderTerminationRequest`请求的，也可能是由操作系统强制夺权（比如 iOS 上的控制中心或是通知中心）。
+
+`evt`是一个合成事件，它包含以下结构：
+
+- ```
+  nativeEvent
+  ```
+
+  - `changedTouches` - 在上一次事件之后，所有发生变化的触摸事件的数组集合（即上一次事件后，所有移动过的触摸点）
+  - `identifier` - 触摸点的 ID
+  - `locationX` - 触摸点相对于当前元素的横坐标
+  - `locationY` - 触摸点相对于当前元素的纵坐标
+  - `pageX` - 触摸点相对于根元素的横坐标
+  - `pageY` - 触摸点相对于根元素的纵坐标
+  - `target` - 触摸点所在的元素 ID
+  - `timestamp` - 触摸事件的时间戳，可用于移动速度的计算
+  - `touches` - 当前屏幕上的所有触摸点的集合
+
+#### 捕获 ShouldSet 事件处理[#](https://reactnative.cn/docs/next/gesture-responder-system#捕获-shouldset-事件处理)
+
+`onStartShouldSetResponder`与`onMoveShouldSetResponder`是以冒泡的形式调用的，即嵌套最深的节点最先调用。这意味着当多个 View 同时在`*ShouldSetResponder`中返回 true 时，最底层的 View 将优先“夺权”。在多数情况下这并没有什么问题，因为这样可以确保所有控件和按钮是可用的。
+
+但是有些时候，某个父 View 会希望能先成为响应者。我们可以利用“捕获期”来解决这一需求。响应系统在从最底层的组件开始冒泡之前，会首先执行一个“捕获期”，在此期间会触发`on*ShouldSetResponderCapture`系列事件。因此，如果某个父 View 想要在触摸操作开始时阻止子组件成为响应者，那就应该处理`onStartShouldSetResponderCapture`事件并返回 true 值。
+
+- `View.props.onStartShouldSetResponderCapture: (evt) => true,`
+- `View.props.onMoveShouldSetResponderCapture: (evt) => true,`
+
+#### PanResponder[#](https://reactnative.cn/docs/next/gesture-responder-system#panresponder)
+
+要使用更高级的手势功能，请参看[PanResponder](https://reactnative.cn/docs/next/panresponder).
 
 ## 包容性
 
 ### 无障碍功能
 
+其中文意思都不太能准确表达其功能的本质——即为残障人士提供便利。
+
+
+
 ## 性能调优
 
 ### 性能综述
+
+#### 关于“帧”你所需要知道的[#](https://reactnative.cn/docs/next/performance#关于帧你所需要知道的)
+
+下面要讲的事情可能更为复杂：请先调出你应用的开发菜单，打开`Show FPS Monitor`. 你会注意到有两个不同的帧率.
+
+#### JS 帧率(JavaScript 线程)[#](https://reactnative.cn/docs/next/performance#js-帧率javascript-线程)
+
+对大多数 React Native 应用来说，业务逻辑是运行在 JavaScript 线程上的。这是 React 应用所在的线程，也是发生 API 调用，以及处理触摸事件等操作的线程。更新数据到原生支持的视图是批量进行的，并且在事件循环每进行一次的时候被发送到原生端，这一步通常会在一帧时间结束之前处理完（如果一切顺利的话）。如果 JavaScript 线程有一帧没有及时响应，就被认为发生了一次丢帧。 例如，你在一个复杂应用的根组件上调用了`this.setState`，从而导致一次开销很大的子组件树的重绘，可想而知，这可能会花费 200ms 也就是整整 12 帧的丢失。此时，任何由 JavaScript 控制的动画都会卡住。只要卡顿超过 100ms，用户就会明显的感觉到。
+
+这种情况经常发生在老的`Navigator`导航器的切换过程中：当你 push 一个新的路由时，JavaScript 需要绘制新场景所需的所有组件，以发送正确的命令给原生端去创建视图。由于切换是由 JavaScript 线程所控制，因此经常会占用若干帧的时间，引起一些卡顿。有的时候，组件会在`componentDidMount`函数中做一些额外的事情，这甚至可能会导致页面切换过程中多达一秒的卡顿。
+
+另一个例子是老的触摸事件的响应：如果你正在 JavaScript 线程处理一个跨越多个帧的工作，你可能会注意到`TouchableOpacity`的响应被延迟了。这是因为 JavaScript 线程太忙了，不能够处理主线程发送过来的原始触摸事件，结果`TouchableOpacity`就不能及时响应这些事件并命令主线程的页面去调整透明度了。
+
+#### UI 帧率(主线程)[#](https://reactnative.cn/docs/next/performance#ui-帧率主线程)
+
+很多人会注意到，`NavigatorIOS`的性能要比老的纯 JS 实现的`Navigator`好的多。原因就是它的切换动画是完全在主线程上执行的，因此不会被 JavaScript 线程上的掉帧所影响。
+
+同样，当 JavaScript 线程卡住的时候，你仍然可以欢快的上下滚动`ScrollView`，因为`ScrollView`运行在主线程之上（尽管滚动事件会被分发到 JS 线程，但是接收这些事件对于滚动这个动作来说并不必要）。
+
+#### 性能问题的常见原因[#](https://reactnative.cn/docs/next/performance#性能问题的常见原因)
+
+##### 开发模式 (`dev=true`)[#](https://reactnative.cn/docs/next/performance#开发模式-devtrue)
+
+JavaScript 线程的性能在开发模式下是很糟糕的。这是不可避免的，因为有许多工作需要在运行的时候去做，譬如使你获得良好的警告和错误信息，又比如验证属性类型（propTypes）以及产生各种其他的警告。
+
+**请务必注意在[release 模式](https://reactnative.cn/docs/next/running-on-device#发布应用)下去测试性能。**
+
+##### console.log 语句[#](https://reactnative.cn/docs/next/performance#consolelog-语句)
+
+在运行打好了离线包的应用时，控制台大量打印语句可能会拖累 JavaScript 线程。注意有些第三方调试库也可能包含控制台打印语句，比如[redux-logger](https://github.com/evgenyrodionov/redux-logger)，所以在发布应用前请务必仔细检查，确保全部移除。
+
+> 有个[babel 插件](https://babeljs.io/docs/plugins/transform-remove-console/)可以帮你移除所有的`console.*`调用。首先需要使用`yarn add --dev babel-plugin-transform-remove-console`来安装，然后在项目根目录下编辑（或者是新建）一个名为·.babelrc`的文件，在其中加入：
+
+```json
+{
+  "env": {
+    "production": {
+      "plugins": ["transform-remove-console"]
+    }
+  }
+}
+```
+
+这样在打包发布时，所有的控制台语句就会被自动移除，而在调试时它们仍然会被正常调用。
+
+##### `ListView` 首次渲染缓慢或者由于列表很大导致滑动很慢[#](https://reactnative.cn/docs/next/performance#listview-首次渲染缓慢或者由于列表很大导致滑动很慢)
+
+用新的[`FlatList`](https://reactnative.cn/docs/next/flatlist)或者[`SectionList`](https://reactnative.cn/docs/next/sectionlist)组件替代。除了简化了API，这些新的列表组件在性能方面都有了极大的提升, 其中最主要的一个是无论列表有多少行，它的内存使用都是常数级的。
+
+如果你的[`FlatList`](https://reactnative.cn/docs/next/flatlist)渲染得很慢, 请确保你使用了[`getItemLayout`](https://reactnative.cn/docs/next/flatlist#getitemlayout)，它通过跳过对items的处理来优化你的渲染速度。
+
+##### 在重绘一个几乎没有什么变化的页面时，JS 帧率严重降低[#](https://reactnative.cn/docs/next/performance#在重绘一个几乎没有什么变化的页面时，js-帧率严重降低)
+
+你可以实现`shouldComponentUpdate`函数来指明在什么样的确切条件下，你希望这个组件得到重绘。如果你编写的是纯粹的组件（界面完全由 props 和 state 所决定），你可以利用`PureComponent`来为你做这个工作。再强调一次，不可变的数据结构（immutable，即对于引用类型数据，不修改原值，而是复制后修改并返回新值）在提速方面非常有用 —— 当你不得不对一个长列表对象做一个深度的比较，它会使重绘你的整个组件更加快速，而且代码量更少。
+
+##### [由于同时在JavaScript线程上做大量工作而丢弃JS线程FPS](https://reactnative.cn/docs/next/performance#dropping-js-thread-fps-because-of-doing-a-lot-of-work-on-the-javascript-thread-at-the-same-time)
+
+##### 在屏幕上移动视图（滚动，切换，旋转）时，UI 线程掉帧[#](https://reactnative.cn/docs/next/performance#在屏幕上移动视图（滚动，切换，旋转）时，ui-线程掉帧)
+
+当具有透明背景的文本位于一张图片上时，或者在每帧重绘视图时需要用到透明合成的任何其他情况下，这种现象尤为明显。设置`shouldRasterizeIOS`或者`renderToHardwareTextureAndroid`属性可以显著改善这一现象。 注意不要过度使用该特性，否则你的内存使用量将会飞涨。在使用时，要评估你的性能和内存使用情况。如果你没有需要移动这个视图的需求，请关闭这一属性。
+
+##### 使用动画改变图片的尺寸时，UI线程掉帧[#](https://reactnative.cn/docs/next/performance#使用动画改变图片的尺寸时，ui-线程掉帧)
+
+在iOS的上，每次调整图像组件的宽度或者高度，都需要重新裁剪和缩放原始图片。这个操作开销会非常大，尤其是大的图片。比起直接修改尺寸，的更好方案的英文使用`transform: [{scale}]`的样式比如当你点击一个图片，要它放大到全屏的时候，就可以使用这个属性。
+
+##### Touchable 系列组件不能很好的响应[#](https://reactnative.cn/docs/next/performance#touchable-系列组件不能很好的响应)
+
+有些时候，如果我们有一项操作与点击事件所带来的透明度改变或者高亮效果发生在同一帧中，有那么可能在`onPress`函数结束之前我们都看不到这些效果。在比如`onPress`执行了一个`setState`的操作，这种操作需要大量计算工作并且导致了掉帧。
 
 ### 列表配置优化
 
@@ -774,6 +1054,53 @@ React Native 支持 `rgb()` 和 `rgba()` 两种十六进制与函数方法
 ### Profiling
 
 ### Profiling with Hermes
+
+## JavaScript运行环境
+
+### JavaScript环境
+
+#### JavaScript 语法转换器[#](https://reactnative.cn/docs/next/javascript-environment#javascript-语法转换器)
+
+语法转换器可以使编写代码的过程更加享受，因为开发者可以借助转换器直接使用新的 JavaScript 语法标准，而无需等待 JS 解释器的支持。
+
+React Native 内置了[Babel 转换器](https://babeljs.io/)。你可以查看[Babel 的文档](https://babeljs.io/docs/plugins/#transform-plugins)来了解有关它可以转换的语法的详情。
+
+在[metro-react-native-babel-preset](https://github.com/facebook/metro/tree/master/packages/metro-react-native-babel-preset)中可以看到目前 React Native 默认开启的语法转换特性。
+
+#### 接口兼容（Polyfills）[#](https://reactnative.cn/docs/next/javascript-environment#接口兼容（polyfills）)
+
+许多标准功能也都在支持的 JavaScript 运行环境上做了兼容支持。
+
+### 定时器
+
+定时器是一个应用中非常重要的部分。React Native 实现了和浏览器一致的[定时器 Timer](https://developer.mozilla.org/en-US/Add-ons/Code_snippets/Timers)。
+
+#### 定时器[#](https://reactnative.cn/docs/next/timers#定时器)
+
+- setTimeout, clearTimeout
+- setInterval, clearInterval
+- setImmediate, clearImmediate
+- requestAnimationFrame, cancelAnimationFrame
+
+`requestAnimationFrame(fn)`和`setTimeout(fn, 0)`不同，前者会在每帧刷新之后执行一次，而后者则会尽可能快的执行（在 iPhone5S 上有可能每秒 1000 次以上）。
+
+`setImmediate`则会在当前 JavaScript 执行块结束的时候执行，就在将要发送批量响应数据到原生之前。注意如果你在`setImmediate`的回调函数中又执行了`setImmediate`，它会紧接着立刻执行，而不会在调用之前等待原生代码。
+
+`Promise`的实现就使用了`setImmediate`来执行异步调用。
+
+#### InteractionManager[#](https://reactnative.cn/docs/next/timers#interactionmanager)
+
+原生应用感觉如此流畅的一个重要原因就是在互动和动画的过程中避免繁重的操作。在 React Native 里，我们目前受到限制，因为我们只有一个 JavaScript 执行线程。不过你可以用`InteractionManager`来确保在执行繁重工作之前所有的交互和动画都已经处理完毕。
+
+#### 务必在卸载组件前清除定时器！[#](https://reactnative.cn/docs/next/timers#务必在卸载组件前清除定时器！)
+
+我们发现很多 React Native 应用发生致命错误（闪退）是与计时器有关。具体来说，是在某个组件被卸载（unmount）之后，计时器却仍然在运行。要解决这个问题，只需铭记`在unmount组件时清除（clearTimeout/clearInterval）所有用到的定时器`即可：
+
+### 使用新的 Hermes 引擎
+
+[Hermes](https://hermesengine.dev/)是一个开源 JavaScript 引擎，针对在 Android 上运行 React Native 应用程序进行了优化。对于许多应用程序，启用 Hermes 将导致启动时间缩短、内存使用量减少和应用程序大小更小。目前 Hermes 是一个**可选的**React Native 功能，本指南解释了如何启用它。
+
+首先，确保您使用的 React Native 版本至少为 0.60.4。
 
 ## 网络连接
 
