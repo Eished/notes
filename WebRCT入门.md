@@ -140,6 +140,8 @@ TURN（全名Traversal Using Relay NAT），是一种数据传输协议（data-t
 
 ## [WebRTC 源码研究](https://juejin.cn/post/6844904199684096007)
 
+李超
+
 ### WebRTC 架构
 
 WebRTC是为了解决 Web 端无法捕获音视频的能力，并且提供了 peer-to-peer（就是浏览器间）的视频交互。
@@ -471,3 +473,28 @@ WebRTC连接上的端点配置称为**会话描述**。
 11. 接受者通过信令服务器将应答传递到呼叫者.
 12. 呼叫者接受到应答.
 13. 呼叫者调用 [`RTCPeerConnection.setRemoteDescription()`](https://developer.mozilla.org/zh-CN/docs/Web/API/RTCPeerConnection/setRemoteDescription) 将应答设定为远程描述. 如此，呼叫者已经获知连接双方的配置了.
+
+### [**待定的和当前描述**](https://developer.mozilla.org/zh-CN/docs/Web/API/WebRTC_API/Connectivity#待定的和当前描述)
+
+我们发现localDescription和remoteDescription(返回这两个描述的属性 )并不像外观那样简单。 
+
+因为在重新协商期间，提议可能会被拒绝，因为它提出了不兼容的格式，每个端点都有能力提出一种新的格式，但是实际上不会切换到另一个对等体，直到它被其他对等体接受为止。 因此，WebRTC使用待定和当前的描述。
+
+**当前描述**(由 [`RTCPeerConnection.currentLocalDescription`](https://developer.mozilla.org/zh-CN/docs/Web/API/RTCPeerConnection/currentLocalDescription) 和 [`RTCPeerConnection.currentRemoteDescription` (en-US)](https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/currentRemoteDescription) 属性返回 )表示连接实际使用的描述。 这是双方已经完全同意使用的最新连接。
+
+**待定的描述**(由 [`RTCPeerConnection.pendingLocalDescription` (en-US)](https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/pendingLocalDescription) 和 [`RTCPeerConnection.pendingRemoteDescription` (en-US)](https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/pendingRemoteDescription) 返回 )表示当 分别调用setLocalDescription( )或setRemoteDescription( )。
+
+当读取描述( [`RTCPeerConnection.localDescription` (en-US)](https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/localDescription) 和 [`RTCPeerConnection.remoteDescription`](https://developer.mozilla.org/zh-CN/docs/Web/API/RTCPeerConnection/remoteDescription) )返回时，返回的值是pendingLocalDescription / pendingRemoteDescription的值，如果有待处理的描述( 也就是说，待处理描述不为null ); 否则，返回当前描述(currentLocalDescription / currentRemoteDescription )。
+
+通过调用setLocalDescription( )或setRemoteDescription( )更改描述时，将指定的描述设置为待定描述，WebRTC层开始评估是否可以接受。 一旦建议的描述已经达成一致，currentLocalDescription或currentRemoteDescription的值将更改为待处理描述，并且待处理的描述再次设置为null，表示没有待处理的描述。
+
+> pendingLocalDescription不仅包含正在考虑的提议或答案，而且自从提议或应答以来已经收集到的任何本地ICE候选人都被创建。 类似地，pendingRemoteDescription包括通过调用 [`RTCPeerConnection.addIceCandidate()`](https://developer.mozilla.org/zh-CN/docs/Web/API/RTCPeerConnection/addIceCandidate) 提供的任何远程ICE候选。
+
+## [ICE候选地址](https://developer.mozilla.org/zh-CN/docs/Web/API/WebRTC_API/Connectivity#什么是ice候选地址？)
+
+除了交换关于媒体的信息(上面提到的Offer / Answer和SDP )中，对等体必须交换关于网络连接的信息。 这被称为ICE候选者，并详细说明了对等体能够直接或通过TURN服务器进行通信的可用方法。 通常，每个对点将优先提出最佳的ICE候选，逐次尝试到不佳的候选中。 理想情况下，候选地址是UDP(因为速度更快，媒体流能够相对容易地从中断恢复 )，但ICE标准也允许TCP候选。
+
+> 一般来说，使用TCP的ICE候选者只有当UDP不可用或被限制使其不适用于媒体流时才会被使用。 不是所有的浏览器都支持ICE over TCP。
+
+![image-20210903212733969](WebRCT入门.assets/image-20210903212733969.png)
+
