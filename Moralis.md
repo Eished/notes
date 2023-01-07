@@ -1007,3 +1007,39 @@ Moralis.authenticate({signingMessage:"hello"})
 It's possible to change the icon a user sees when interacting with your smart contract. To accomplish this, you'll have to add a favicon to your dApp. Follow the instructions in the [MetaMask docs](https://docs.metamask.io/guide/defining-your-icon.html).
 
 当用户与智能合同进行交互时，可以更改用户看到的图标。要做到这一点，你需要在 dApp 中添加一个图标。按照 MetaMask 文档中的说明操作。
+
+# Web3 Provider 3提供商
+
+## Web3.js
+
+### In Browser
+
+与 window.ethereum.enable ()类似，但返回一个解析为 Web3实例的承诺。当您需要一个功能齐全的 Web3实例时，例如用于进行合同调用时，可以使用这个方法。
+
+
+
+```
+const web3 = await Moralis.enable();
+const contract = new web3.eth.Contract(contractAbi, contractAddress);
+```
+
+If you only need to access `web3.utils` without Web3 connectivity, use the following:
+
+如果你只需要在没有 Web3连接的情况下访问 Web3.utils，使用以下方法:
+
+
+
+```
+const web3 = new Moralis.Web3();
+const amountInEth = web3.utils.fromWei(amountInWei, 'ether');
+```
+
+Just beware that calls like `web3.eth.getAccounts()` will not work. You can re-assign the variable using `Moralis.enable()` later if you need full Web3 connectivity.
+
+只是要注意像 web3.eth.getAccounts ()这样的调用不会工作。如果需要完整的 Web3连接，可以稍后使用 Moralis.enable ()重新分配变量。
+
+See the [Web3.js docs](https://web3js.readthedocs.io/) for more info on the Web3 object.
+
+更多关于 Web3对象的信息请参见 Web3.js 文档。
+
+## 

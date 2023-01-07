@@ -20,7 +20,7 @@ Full cone NAT(即一对一NAT): 一旦一个内部地址(iAddr:iPort)映射到�
 
 同一个内部地址(iAddr:iPort)只会映射相同的外部地址(eAddr:ePort)，映射完成后，目标IP端口都无限制。
 
-![image-20210903172438929](WebRCT.assets/image-20210903172438929.png)
+![image-20210903172438929](WebRTC入门.assets/image-20210903172438929.png)
 
 #### 受限圆锥形NAT
 
@@ -28,7 +28,7 @@ Address-Restricted cone NAT：内部客户端必须首先发送数据包到对�
 
 同一个内部地址(iAddr:iPort)只会映射相同的外部地址(eAddr:ePort)，映射完成后，必须先发一个包给目标，然后才能收到目标回发的包，目标端口无限制。
 
-![image-20210903172414476](WebRCT.assets/image-20210903172414476.png)
+![image-20210903172414476](WebRTC入门.assets/image-20210903172414476.png)
 
 #### 端口受限圆锥形NAT
 
@@ -36,13 +36,13 @@ Port-Restricted cone NAT：类似受限制锥形NAT(Restricted cone NAT)，但�
 
 同一个内部地址(iAddr:iPort)只会映射相同的外部地址(eAddr:ePort)，映射完成后，必须先发一个包给目标(tAddr:tPort)，然后才能收到目标(tAddr:tPort)回发的包，有目标端口限制。
 
-![image-20210903172400947](WebRCT.assets/image-20210903172400947.png)
+![image-20210903172400947](WebRTC入门.assets/image-20210903172400947.png)
 
 #### 对称NAT
 
 Symmetric NAT：每一个来自相同内部IP与端口，到一个特定目的地地址和端口的请求，都映射到一个独特的外部IP地址和端口。同一内部IP与端口发到不同的目的地和端口的信息包，都使用不同的映射。只有曾经收到过内部主机数据的外部主机，才能够把数据包发回。
 
-![image-20210903172700834](WebRCT.assets/image-20210903172700834.png)
+![image-20210903172700834](WebRTC入门.assets/image-20210903172700834.png)
 
 同一个内部地址(iAddr:iPort)对不同目标(tAddr1:tPort1)(tAddr2:tPort2)会映射出不同的外部地址(eAddr1:ePort1)(eAddr2:ePort2)，必须先发一个包给目标(iAddr:iPort)->(eAddr1:ePort1)->(tAddr1:tPort1)，才能收到回发的包(tAddr1:tPort1)->(eAddr1:ePort1)->(iAddr:iPort1)。
 
@@ -152,7 +152,7 @@ WebRTC是为了解决 Web 端无法捕获音视频的能力，并且提供了 pe
 
 虽然WebRTC最初被设想为纯粹的P2P技术，但许多日常业务应用程序需要集中式媒体功能，通过P2S（peer-to-server）架构提高可靠性、效率或扩展性。 对于P2P和P2S架构之间的问题对于构建WebRTC应用程序很重要。
 
-![image-20210903202143480](WebRCT入门.assets/image-20210903202143480.png)
+![image-20210903202143480](WebRTC入门.assets/image-20210903202143480.png)
 
 - 总体上来说看上面图可以知道整个浅绿色部分都属于WebRTC核心架构层，它封装各种提供给web端使用的Web API层接口。
 - 紫色的部分属于应用层，使用核心层提供的API。你可以在应用层扩展相关API，调用WebRTC核心层的接口。
@@ -226,7 +226,7 @@ WebRTC传输层这块还实现了通过计算去估算你的网络带宽，不�
 
 **Session Management**：一个抽象的会话层，提供会话建立和管理功能。该层协议留给应用开发者自定义实现。
 
-![image-20210903205927047](WebRCT入门.assets/image-20210903205927047.png)
+![image-20210903205927047](WebRTC入门.assets/image-20210903205927047.png)
 
 ### VoiceEngine
 
@@ -314,7 +314,9 @@ VideoEngine是WebRTC视频处理引擎 VideoEngine是包含一系列视频处理
 | ViERTP_RTCP              | vie_rtp_rtcp.h       | 处理RTP/RTCP统计，NACK/FEC，保持活动功能和关键帧请求方法。   |      |
 |                          |                      |                                                              |      |
 
-### webrtc源码结构![image-20210903210917718](WebRCT入门.assets/image-20210903210917718.png)
+### webrtc源码结构
+
+![image-20210903210917718](WebRTC入门.assets/image-20210903210917718.png)
 
 如果按照通常层次化的思维来组织，从下到上，大概分以下几个层次：
 
@@ -496,5 +498,5 @@ WebRTC连接上的端点配置称为**会话描述**。
 
 > 一般来说，使用TCP的ICE候选者只有当UDP不可用或被限制使其不适用于媒体流时才会被使用。 不是所有的浏览器都支持ICE over TCP。
 
-![image-20210903212733969](WebRCT入门.assets/image-20210903212733969.png)
+![image-20210903212733969](WebRTC入门.assets/image-20210903212733969.png)
 
