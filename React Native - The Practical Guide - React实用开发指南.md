@@ -1,10 +1,8 @@
-# React Native - The Practical Guide - React实用开发指南【Udemy】
+# React Native - The Practical Guide - React 实用开发指南【Udemy】
 
 上：https://www.bilibili.com/video/BV1FP4y1M7j2
 
 下：https://www.bilibili.com/video/BV18q4y1Y7M5
-
-
 
 ## 第一章：RN 的基础知识、环境搭建
 
@@ -14,26 +12,38 @@
 
 章节的后半段，老师手把手教我们环境搭建，环境和配置是我个人认为，JSer 上手 RN 时最大的两个阻碍。我曾经也在想，为什么不能像 React 开发人员上手 antd 或者是 Vue 开发人员上手 element-ui 一样上手 RN 。原因就是在 RN 中的环境和配置相对而言是比较复杂的。在使用原生功能前，开发 RN App 不涉及配置，所以配置的事等之后第十二章再说，这里先说说环境。
 
-翻开官网文档，你会发现搭建环境有两个 Quickstart 选项，一个是 React Native CLI Quickstart，这个是使用 RN 自己的命令行工具来初始化 RN 应用，用此方法时，如果你没有 macOS 系统，不借助第三方软件下你是无法构建 iOS App 的，这是硬件的限制。此外还需要安装各种各样的包，安装的过程非常非常的折腾。。。可能很多同学就卡在这步，然后就没有然后了。 
+翻开官网文档，你会发现搭建环境有两个 Quickstart 选项，一个是 React Native CLI Quickstart，这个是使用 RN 自己的命令行工具来初始化 RN 应用，用此方法时，如果你没有 macOS 系统，不借助第三方软件下你是无法构建 iOS App 的，这是硬件的限制。此外还需要安装各种各样的包，安装的过程非常非常的折腾。。。可能很多同学就卡在这步，然后就没有然后了。
 
 作为初学者，我们一般起手使用 Expo CLI Quickstart 来初始化项目，Expo 是围绕 RN 的一套工具集，Expo 解决了 Windows 开发者无法构建 iOS 的问题，此外简化了环境配置，使用 Expo 来构建 RN App 可以大大的提高效率。课程中使用的也就是 Expo 构建的方案。
 
+[expo.io](https://expo.io)
+
 首先 npm 全局安装 Expo CLI 包
 
+```bash
 npm install -g expo-cli
+```
+
 安装完成后，使用 expo-cli 初始化项目
 
+```bash
 expo init AwesomeProject
+```
+
 耐心等待初始化结束，进入项目目录，启动项目
 
+```bash
 cd AwesomeProject
 expo start
+```
+
 如果顺利的话，浏览器会弹出这个窗口
 
 ![img](React Native - The Practical Guide - React实用开发指南.assets/84d8d9ecc6586068f8fb9cf72b6aa47817464c0e.jpg@942w_458h_progressive.webp)
 
 Expo 程序控制台
-虽然使用 Expo 已经简化了很多搭建环境的步骤，但可能还是会碰到点问题。视频中老师Expo CLI 版本为2.21.2，以及我之前自己安装过的本地版本为4.13.0，按照视频中的步骤均无法正常运行。后来我本地安装了当下最新的版本5.4.12后，流程可以正常的走下去了。
+
+虽然使用 Expo 已经简化了很多搭建环境的步骤，但可能还是会碰到点问题。视频中老师 Expo CLI 版本为 2.21.2，以及我之前自己安装过的本地版本为 4.13.0，按照视频中的步骤均无法正常运行。后来我本地安装了当下最新的版本 5.4.12 后，流程可以正常的走下去了。
 
 如果还要在手机上预览应用，App 更新过了名称叫 Expo Go，而不是视频中的 Expo Client。安装 App 后，使用时可以通过原生相机扫描二维码，手机将自动打开 Expo Go。
 
@@ -45,23 +55,81 @@ Android 模拟器：https://docs.expo.dev/workflow/android-studio-emulator/
 
 另外有个小坑，安卓模拟器中安卓系统镜像不能选 with google api 的，否则无法正确运行 Expo 项目。
 
-如果可以在实机或模拟器预览初始项目，那么恭喜你，你已经完成上手 RN 开发50%的工作了～～～
+如果可以在实机或模拟器预览初始项目，那么恭喜你，你已经完成上手 RN 开发 50%的工作了～～～
 
-安卓模拟器与iOS模拟器
+安卓模拟器与 iOS 模拟器
 
 ![img](React Native - The Practical Guide - React实用开发指南.assets/ef1d9f870601d703b4326ae71efa108bf028c3e7.jpg@942w_966h_progressive.webp)
 
-第二章到第五章的内容，比较接近普通 UI 库的使用，对于有经验的开发者，上手难度相对而言比较简单。 
+第二章到第五章的内容，比较接近普通 UI 库的使用，对于有经验的开发者，上手难度相对而言比较简单。
 
 ### 什么是 React Native
 
 ![image-20230122173822623](React Native - The Practical Guide - React实用开发指南.assets/image-20230122173822623.png)
 
+#### 背后发生了什么
+
+![image-20230122222158469](React Native - The Practical Guide - React实用开发指南.assets/image-20230122222158469.png)
+
+#### 组件转译细节
+
+![image-20230122222901587](React Native - The Practical Guide - React实用开发指南.assets/image-20230122222901587.png)
+
+#### JavaScript 逻辑如何运行
+
+![image-20230122223103071](React Native - The Practical Guide - React实用开发指南.assets/image-20230122223103071.png)
+
+#### JavaScript 如何转译成 Native App
+
+![image-20230122223157056](React Native - The Practical Guide - React实用开发指南.assets/image-20230122223157056.png)
+
+### 使用 Expo 还是 React Native CLI
+
+创建新 React Native App
+
+- Expo CLI/Tool
+  - 免费。Third-Party Service (Free!)
+  - 管理 App 开发。"Managed App Development"
+  - 便捷、简化开发。Lots of Convenience & Utility Features: Simplifies Development
+  - 会受限于 Expo 生态系统，无法精细控制原生 App。But:You're limited to the Expo Ecosystem
+- React Native CLI
+  - 官方支持。
+  - 只有基本的开发配置。
+  - 不方便，没有工具库。
+  - 充分的灵活性: 与任何原生代码集成。
+
+两者可以随时切换。
+
+### Expo 如何运行
+
+![image-20230122230142431](React Native - The Practical Guide - React实用开发指南.assets/image-20230122230142431.png)
+
+- 可以作为 Expo App 发布
+- 可以作为独立 App 发布
+- 可以切换回 React Native CLI 开发
+
+创建 React Native App
+
+开发我们的第一款应用
+
+React 原生应用非常困难
+
+### 版本更迭
+
+1. 发布新版本
+2. 版本退回
+3. 第三方依赖更新
+4. Bugs 修复
+
+#### 该不该学 React Native
+
+![image-20230123042400811](React Native - The Practical Guide - React实用开发指南.assets/image-20230123042400811.png)
+
 ## 第二章：RN 内置基础组件示例、如何编辑样式
 
-第二章的任务，就是熟悉 RN 内部组件的使用，最基础的7个组件如下
+第二章的任务，就是熟悉 RN 内部组件的使用，最基础的 7 个组件如下
 
-```
+```javascript
 // 容器组件，相当于 <div></div>，
 // 但是对于内容超出容器高度的情况是不能滚动的
 // 默认使用 flexbox 布局
@@ -100,7 +168,7 @@ Android 模拟器：https://docs.expo.dev/workflow/android-studio-emulator/
 
 还有个和 Web 开发中不同的是，RN 中并不是每个组件都有点击事件，像 Image 和 View 都是没有 onPress 事件的，为了帮这些组件绑定点击事件，需要在包裹在特定的组件中来实现，课程中提到以下四个组件：
 
-```
+```javascript
 // 1.透明效果
 <TouchableOpacity
   onPress={onPress}
@@ -138,10 +206,10 @@ Android 模拟器：https://docs.expo.dev/workflow/android-studio-emulator/
 
 RN 中书写样式也与传统 Web 开发时不同，比较像 JSS 的做法，通过 StyleSheet Objects，书写类 CSS 的语法，而且自带属性验证，对于不正确的值会抛错
 
-```
+```javascript
 // 官方的例子
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 const App = () => (
   <View style={styles.container}>
@@ -153,26 +221,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    backgroundColor: "#eaeaea"
+    backgroundColor: '#eaeaea',
   },
   title: {
     marginTop: 16,
     paddingVertical: 8,
     borderWidth: 4,
-    borderColor: "#20232a",
+    borderColor: '#20232a',
     borderRadius: 6,
-    backgroundColor: "#61dafb",
-    color: "#20232a",
-    textAlign: "center",
+    backgroundColor: '#61dafb',
+    color: '#20232a',
+    textAlign: 'center',
     fontSize: 30,
-    fontWeight: "bold"
-  }
+    fontWeight: 'bold',
+  },
 });
 
 export default App;
 ```
-
- 作者：无限咪咪 https://www.bilibili.com/read/cv18201766 出处：bilibili
 
 ## 第三章：调试 RN 程序的方法
 
@@ -212,22 +278,21 @@ React Native Debugger 官方示意图
 
 安卓与 iOS 系统的样式差异，需要开发人员根据各个系统去适配，比如同样给容器增加阴影。在安卓中直接使用 View Style Props 中的 elevation 来实现，而 iOS 中需要使用 ShadowStyleIOS 来实现。
 
-```
+```javascript
 const styles = StyleSheet.create({
   card: {
     padding: 20,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 10,
 
     // 安卓实现 View 阴影样式
     elevation: 8,
-    
+
     // iOS 实现 View 阴影样式
-    shadowColor: "black",
+    shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 6,
     shadowOpacity: 0.26,
-
   },
 });
 ```
@@ -236,30 +301,28 @@ const styles = StyleSheet.create({
 
 如何关闭键盘？点击输入框可以弹出键盘，但是如果我们不提交的话，是无法手动关闭键盘的。如果需要关闭键盘，可以通过全局的 Touchable 组件，配合 KeyBoard API 来实现。
 
-```
-<TouchableWithoutFeedback onPress={Keyboard.dismiss()}>
-	// ...
-</TouchableWithoutFeedback>
+```javascript
+<TouchableWithoutFeedback onPress={Keyboard.dismiss()}>// ...</TouchableWithoutFeedback>
 ```
 
-使用 iOS 模拟器时，如果模拟器检测到有外部键盘输入，模拟器中软键盘将不会显示，如果需要打开，需要更改一下模拟器设置I/O -> Keyboard。
+使用 iOS 模拟器时，如果模拟器检测到有外部键盘输入，模拟器中软键盘将不会显示，如果需要打开，需要更改一下模拟器设置 I/O -> Keyboard。
 
 ### 警告
 
-通过 RN 提供的 Alert 类，可以实现弹窗功能。 
+通过 RN 提供的 Alert 类，可以实现弹窗功能。
 
-```
+```javascript
 Alert.alert(
-  "Alert 标题",
-  "Alert 内容信息",
+  'Alert 标题',
+  'Alert 内容信息',
   // 按钮组，可以定义按钮样式与回调函数
   [
     {
-      text: "取消",
-      onPress: () => console.log("Cancel Pressed"),
-      style: "cancel"
+      text: '取消',
+      onPress: () => console.log('Cancel Pressed'),
+      style: 'cancel',
     },
-    { text: "确认", onPress: () => console.log("OK Pressed") }
+    { text: '确认', onPress: () => console.log('OK Pressed') },
   ]
 );
 ```
@@ -274,7 +337,7 @@ expo install expo-font
 
 然后在程序入口加载字体资源
 
-```
+```javascript
 import { useFonts } from 'expo-font';
 
 // ...
@@ -288,14 +351,14 @@ const [loaded] = useFonts({
 
 使用 Icons 同样需要 expo 的介入，@expo/vector-icons 这个库默认已经在初始化 expo 项目时安装好了，使用方法如下
 
-```
+```javascript
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function App() {
   return (
     <View style={styles.container}>
-  	  // name 的取值可以去 https://icons.expo.fyi/ 这个网站查
-      <Ionicons name="md-checkmark-circle" size={32} color="green" />
+      // name 的取值可以去 https://icons.expo.fyi/ 这个网站查
+      <Ionicons name='md-checkmark-circle' size={32} color='green' />
     </View>
   );
 }
@@ -303,25 +366,19 @@ export default function App() {
 
 ### 整合第三方 UI 库
 
-```
+```javascript
 // 可以试试 expo 官网指南中提到的几个 UI 库
 // https://docs.expo.dev/guides/userinterface/
 ```
 
- 作者：无限咪咪 https://www.bilibili.com/read/cv18201766 出处：bilibili
-
 ## 第五章：实现程序响应式的一些内容
 
-第五章是对第四章实现的猜数字APP的调整，适配程序在小屏、旋转下的正确展示，并根据不同平台设置不同的样式。
+第五章是对第四章实现的猜数字 APP 的调整，适配程序在小屏、旋转下的正确展示，并根据不同平台设置不同的样式。
 
 ### 屏幕
 
-```
-import {
-  useWindowDimensions,
-  Dimensions,
-  SafeAreaView
-} from 'react-native';
+```javascript
+import { useWindowDimensions, Dimensions, SafeAreaView } from 'react-native';
 
 // 1
 // 获取设备像素信息
@@ -330,7 +387,7 @@ const { height, width } = useWindowDimensions();
 
 // 2
 // 监听屏幕方向变化
-Dimensions.addEventListener("change", ({ window, screen }) => {})
+Dimensions.addEventListener('change', ({ window, screen }) => {});
 
 // 3
 // SafeAreaView 组件提供通用的安全显示区域，防止刘海屏遮挡屏幕内容
@@ -340,12 +397,12 @@ const App = () => {
       <Text>内容</Text>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  }
+  },
 });
 
 // 4
@@ -353,15 +410,13 @@ const styles = StyleSheet.create({
 // 可以防止软键盘遮挡输入区
 const KeyboardAvoidingComponent = () => {
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View>
           <Text>Header</Text>
-          <TextInput placeholder="Username" />
+          <TextInput placeholder='Username' />
           <View>
-            <Button title="Submit" onPress={() => null} />
+            <Button title='Submit' onPress={() => null} />
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -374,7 +429,7 @@ const KeyboardAvoidingComponent = () => {
 
 通过 Platform API 可以获取设备的平台信息
 
-```
+```javascript
 import { Platform, StyleSheet } from 'react-native';
 
 // 获取当前操作系统名称
@@ -386,17 +441,17 @@ const styles = StyleSheet.create({
     flex: 1,
     ...Platform.select({
       android: {
-        backgroundColor: 'green'
+        backgroundColor: 'green',
       },
       ios: {
-        backgroundColor: 'red'
+        backgroundColor: 'red',
       },
       default: {
         // other platforms, web for example
-        backgroundColor: 'blue'
-      }
-    })
-  }
+        backgroundColor: 'blue',
+      },
+    }),
+  },
 });
 ```
 
@@ -404,14 +459,14 @@ const styles = StyleSheet.create({
 
 对于以下两个文件
 
-```
-BigButton.ios.js
-BigButton.android.js
+```javascript
+BigButton.ios.js;
+BigButton.android.js;
 ```
 
 RN 会自动根据平台引入对应的文件
 
-```
+```javascript
 import BigButton from './BigButton';
 ```
 
@@ -437,7 +492,7 @@ expo 初始化的项目根目录，会有 app.json 文件，其中的 expo.orien
 
 ## 第六章：导航
 
-第六章的内容为导航，通过库 React Navigation 来实现的，视频中第六章使用的是版本3，在第十五章附加章中，老师又介绍了版本5与版本3的差异，两个版本的使用方法差异不小，初学时可以跟着第六章的步骤，使用版本3进行学习。 
+第六章的内容为导航，通过库 React Navigation 来实现的，视频中第六章使用的是版本 3，在第十五章附加章中，老师又介绍了版本 5 与版本 3 的差异，两个版本的使用方法差异不小，初学时可以跟着第六章的步骤，使用版本 3 进行学习。
 
 RN 中导航与 Web 中导航最大区别，就是没有 URL 这个概念了，所以配置路由的方法与 Web 中根据 URL 映射组件的方法略有不同。
 
@@ -454,7 +509,7 @@ import {
   createBottomTabNavigator,
   createDrawerNavigator,
   createSwitchNavigator,
-} from "react-navigation";
+} from 'react-navigation';
 
 // Stack
 const StackNavigator = createStackNavigator({
@@ -469,7 +524,7 @@ const BottomTabNavigator = createBottomTabNavigator({
     screen: Xxx2Screen,
     navigationOptions: {
       // 通过这个属性设置 Tab 的 icon
-      tabBarIcon: (tabInfo) => <Ionicons name="ios-restaurant" size={25} />,
+      tabBarIcon: tabInfo => <Ionicons name='ios-restaurant' size={25} />,
     },
   },
   // ...
@@ -491,7 +546,7 @@ const SwitchNavigator = createSwitchNavigator({
 export default createAppContainer(SwitchNavigator);
 ```
 
-React Navigation 中还有有个很重要的概念就是 Screen component，被配置进上述四种路由类型中的组件，会被定义为 Screen component，Screen component 的 props 会自动传入navigation 属性，用来实现路由相关功能。
+React Navigation 中还有有个很重要的概念就是 Screen component，被配置进上述四种路由类型中的组件，会被定义为 Screen component，Screen component 的 props 会自动传入 navigation 属性，用来实现路由相关功能。
 
 React Navigation 这个路由库与 Web 中的路由库不同，除了提供路由相关逻辑外，还包含了 UI 的实现，比如创建了 BottomTab 类型的导航后，在相应的页面会自动出现底部 Tabs 区域。
 
@@ -500,7 +555,7 @@ React Navigation 这个路由库与 Web 中的路由库不同，除了提供路�
 Tabs 区域自动加载
 如何导航去其他页面？通过 props.navigation.navigate 方法实现
 
-```
+```javascript
 class HomeScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
@@ -509,72 +564,74 @@ class HomeScreen extends React.Component {
       <View>
         <Text>This is the home screen of the app</Text>
         <Button
-      	  // 第一个参数是目的路由的名称，就是创建导航类型时，自己定义的名称
-      	  // 第二个参数是传递的参数 params
-      	  // 在目标页面，通过 props.navigation.getParam('name') 获取参数值
+          // 第一个参数是目的路由的名称，就是创建导航类型时，自己定义的名称
+          // 第二个参数是传递的参数 params
+          // 在目标页面，通过 props.navigation.getParam('name') 获取参数值
           onPress={() => navigate('Profile', { name: 'Brent' })}
           title="Go to Brent's profile"
         />
       </View>
     );
-
   }
 }
 ```
 
 React Navigation 甚至还提供了 Header Bar 的配置功能，可以在组件的 navigationOptions 属性上添加相应的配置，来自定义 Header Bar。
 
-```
-ScreenComponent.navigationOptions = (navData) => ({
+```javascript
+ScreenComponent.navigationOptions = navData => ({
   // HeaderBar 标题
-  headerTitle: "HeaderBar 标题!",
+  headerTitle: 'HeaderBar 标题!',
   // HeaderBar 样式
   headerStyle: {
-    backgroundColor: "orange",
+    backgroundColor: 'orange',
   },
   // HeaderBar 文本颜色
-  headerTintColor: "white",
+  headerTintColor: 'white',
 });
 ```
 
-效果如下（⚠️注意：header bar 的修改，需要 reload 程序后才能生效）
+效果如下（⚠️ 注意：header bar 的修改，需要 reload 程序后才能生效）
 
 ![img](React Native - The Practical Guide - React实用开发指南.assets/c1167affaa7251d4c228442bf1dd8189ebd14fb2.png@942w_495h_progressive.webp)
 
 HeaderBar
 添加 header bar 除了直接配置组件的静态属性 navigationOptions，还可以在创建导航时，统一配置。
 
-```
+```javascript
 // 官方例子，createStackNavigator 方法第二个参数来同一配置 NavigationOptions
-const HomeStack = createStackNavigator({ A }, {
-  // 组件的 .navigationOptions 配置可以覆盖这里的配置
-  defaultNavigationOptions: {
-    title: 'Welcome'
+const HomeStack = createStackNavigator(
+  { A },
+  {
+    // 组件的 .navigationOptions 配置可以覆盖这里的配置
+    defaultNavigationOptions: {
+      title: 'Welcome',
+    },
   }
-})
+);
 ```
 
 通过 headerRight、headerLeft 两个属性，还可以在 header bar 上还可以增加按钮。这两个属性直接接收 React Element。但是由于各个平台和机型的兼容性，如果让我们自己来书写组件，可能除了业务逻辑外，还要适配各个机型，比较麻烦。所以一般使用第三方库来实现此功能，视频中使用的是 react-navigation-header-buttons 这个包，部分代码如下
 
-```
-import { Ionicons } from "@expo/vector-icons";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
+```javascript
+import { Ionicons } from '@expo/vector-icons';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 // ...
-const CustomHeaderButton = (props) => {
+const CustomHeaderButton = props => {
   return <HeaderButton {...props} IconComponent={Ionicons} iconSize={23} />;
 };
 
-CategoriesScreen.navigationOptions = (navData) => ({
-  headerTitle: "HeaderBar 标题!",
+CategoriesScreen.navigationOptions = navData => ({
+  headerTitle: 'HeaderBar 标题!',
   headerStyle: {
-    backgroundColor: "orange",
+    backgroundColor: 'orange',
   },
-  headerTintColor: "white",
+  headerTintColor: 'white',
   headerLeft: (
     <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
       <Item
-        title="Favorite"
-        iconName="ios-menu"
+        title='Favorite'
+        iconName='ios-menu'
         onPress={() => {
           navData.navigation.toggleDrawer();
         }}
@@ -603,9 +660,9 @@ headerLeft
 
 ## 第十章：Http
 
-第十章和第十一章可以算作一类，都是讲与服务端交互的。课程中使用了 Firebase 来做 mock 的服务端，需要注册 Firebase 来开启，没有条件的同学不使用，问题也不大。 
+第十章和第十一章可以算作一类，都是讲与服务端交互的。课程中使用了 Firebase 来做 mock 的服务端，需要注册 Firebase 来开启，没有条件的同学不使用，问题也不大。
 
-第十章说 RN 中的 HTTP 请求，发送接收请求基本上与 Web 中没有区别。 
+第十章说 RN 中的 HTTP 请求，发送接收请求基本上与 Web 中没有区别。
 
 ### 导航增加监听
 
@@ -621,13 +678,13 @@ ActivityIndicator 组件效果
 
 ### 下拉刷新
 
-还记得 RN 的 FlatList 组件吗，就是用来展示长列表的，可以使用 onRefresh 属性定义下拉触发的方法，refreshing 属性定义当前是否是加载状态。 
+还记得 RN 的 FlatList 组件吗，就是用来展示长列表的，可以使用 onRefresh 属性定义下拉触发的方法，refreshing 属性定义当前是否是加载状态。
 
 ## 第十一章：鉴权、存储本地数据
 
-第十一章讲解了鉴权的方法，鉴权使用的是 Token 方案。视频中使用服务端的还是 Firebase 的服务，对于 RN 端，需要在获取 Token 后存到本地，这时你可能就发现问题了，在 Web 应用中，我们都是将 Token 存在 localStorage 中，而 RN 中没有这个概念，取而代之的是 AsyncStorage 模块。（⚠️注意：咪咪使用的的 RN 版本是 0.69，这个模块已经是 Deprecated 状态了，官方建议使用其他社区包来代替）
+第十一章讲解了鉴权的方法，鉴权使用的是 Token 方案。视频中使用服务端的还是 Firebase 的服务，对于 RN 端，需要在获取 Token 后存到本地，这时你可能就发现问题了，在 Web 应用中，我们都是将 Token 存在 localStorage 中，而 RN 中没有这个概念，取而代之的是 AsyncStorage 模块。（⚠️ 注意：咪咪使用的的 RN 版本是 0.69，这个模块已经是 Deprecated 状态了，官方建议使用其他社区包来代替）
 
-```
+```javascript
 // 官方例子
 
 import { AsyncStorage } from 'react-native';
@@ -635,10 +692,7 @@ import { AsyncStorage } from 'react-native';
 // 存数据
 _storeData = async () => {
   try {
-    await AsyncStorage.setItem(
-      '@MySuperStore:key',
-      'I like to save it.'
-    );
+    await AsyncStorage.setItem('@MySuperStore:key', 'I like to save it.');
   } catch (error) {
     // Error saving data
   }
@@ -658,8 +712,7 @@ _retrieveData = async () => {
 };
 ```
 
-
-接下来就要开始学习原生 App 的功能了，目前为止的学习过程中，我们大多还是依赖 RN 本身提供的能力，使用方法与 Web 开发时区别不是很大。而使用原生模块则不然，可能还需要修改安卓项目或 iOS 项目的配置，对刚刚入门的我们可能门槛还太高。这时使用 Expo 工作流的优势就显示出来了，Expo 大大降低了安装和使用原生模块的门槛。 
+接下来就要开始学习原生 App 的功能了，目前为止的学习过程中，我们大多还是依赖 RN 本身提供的能力，使用方法与 Web 开发时区别不是很大。而使用原生模块则不然，可能还需要修改安卓项目或 iOS 项目的配置，对刚刚入门的我们可能门槛还太高。这时使用 Expo 工作流的优势就显示出来了，Expo 大大降低了安装和使用原生模块的门槛。
 
 ## 第十二章：使用原生功能
 
@@ -687,7 +740,7 @@ import * as ImagePicker from 'expo-image-picker';
 
 首先获取权限。没有权限但调用方法时，安卓会弹出授权框让用户确认，而 iOS 不会，需要手动调用授权功能让用户确认。
 
-```
+```javascript
 // ...
 
 const [status, requestPermission] = ImagePicker.useCameraPermissions();
@@ -705,7 +758,7 @@ const pickImage = async () => {
 
 获取权限后，启动相机
 
-```
+```javascript
 const result = await ImagePicker.launchCameraAsync();
 ```
 
@@ -717,13 +770,13 @@ const result = await ImagePicker.launchCameraAsync();
 
 除了通过相机拍照获取图片，还可以通过相册来选择图片
 
-```
+```javascript
 // ImagePicker.launchImageLibraryAsync 方法还可以接收一个对象，来配置选中的图片
 let result = await ImagePicker.launchImageLibraryAsync({
-   mediaTypes: ImagePicker.MediaTypeOptions.All,
-   allowsEditing: true,
-   aspect: [4, 3],
-   quality: 1,
+  mediaTypes: ImagePicker.MediaTypeOptions.All,
+  allowsEditing: true,
+  aspect: [4, 3],
+  quality: 1,
 });
 ```
 
@@ -743,24 +796,24 @@ expo install expo-file-system
 
 引入模块
 
-```
+```javascript
 import * as FileSystem from 'expo-file-system';
 ```
 
 每个 App 只允许在指定的文件夹下写入文件，通过一下属性获取该文件夹 uri
 
-```
+```javascript
 // 获取 App 可写的文件夹 uri，以 file:// 开头
 console.log(FileSystem.documentDirectory);
 ```
 
 通过“剪切”文件，将临时图片移动到 App 存储文件夹中
 
-```
+```javascript
 FileSystem.moveAsync({
-	from: 'file://xxx1',
-    to: 'file://xxx2'
-})
+  from: 'file://xxx1',
+  to: 'file://xxx2',
+});
 ```
 
 ### 更完整的存储系统
@@ -775,19 +828,19 @@ expo install expo-sqlite
 
 示例
 
-```
+```javascript
 // 引入模块
-import * as SQLite from "expo-sqlite";
+import * as SQLite from 'expo-sqlite';
 
 // 打开/创建数据库
 // 数据库地址 ${FileSystem.documentDirectory}/SQLite/${name}
-const db = SQLite.openDatabase("rn-demo");
+const db = SQLite.openDatabase('rn-demo');
 
 // 初始化数据库
 export const initDB = () => {
   return new Promise((res, rej) => {
     // 执行事务
-    db.transaction((tx) => {
+    db.transaction(tx => {
       // 执行sql
       tx.executeSql(
         `CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY NOT NULL, name VARCHAR)`,
@@ -802,10 +855,10 @@ export const initDB = () => {
 // 增加用户
 export const insertUser = () => {
   return new Promise((res, rej) => {
-    db.transaction((tx) => {
+    db.transaction(tx => {
       tx.executeSql(
         `INSERT INTO users (name) VALUES (?)`,
-        ["lyf"],
+        ['lyf'],
         (_, ret) => {
           res(ret);
         },
@@ -820,7 +873,7 @@ export const insertUser = () => {
 // 获取用户列表
 export const getUser = () => {
   return new Promise((res, rej) => {
-    db.transaction((tx) => {
+    db.transaction(tx => {
       tx.executeSql(
         `SELECT * FROM users`,
         [],
@@ -848,15 +901,15 @@ expo install expo-location
 
 获取用户位置信息
 
-```
+```javascript
 // 引入模块
-import * as Location from "expo-location";
+import * as Location from 'expo-location';
 
 const handleGetCurrentLocationBtnClick = async () => {
   // 请求位置权限
   let { status } = await Location.requestForegroundPermissionsAsync();
-  if (status !== "granted") {
-    setErrorMsg("获取位置权限被拒绝！");
+  if (status !== 'granted') {
+    setErrorMsg('获取位置权限被拒绝！');
     return;
   }
 
@@ -866,7 +919,7 @@ const handleGetCurrentLocationBtnClick = async () => {
 };
 ```
 
-地图展示需要使用一个叫  react-native-maps 的包，也是先安装包（注意这个不用 expo install 了）
+地图展示需要使用一个叫 react-native-maps 的包，也是先安装包（注意这个不用 expo install 了）
 
 ```
 npm i react-native-maps
@@ -874,25 +927,25 @@ npm i react-native-maps
 
 使用示意
 
-```
-import React from "react";
+```javascript
+import React from 'react';
 // 还记得 RN 中这些组件都有什么用吗?
-import { View, Text, StyleSheet, Button, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Button, Dimensions } from 'react-native';
 // 引入组件
-import MapView from "react-native-maps";
+import MapView from 'react-native-maps';
 
-const MapViewContainer = (props) => {
+const MapViewContainer = props => {
   return (
     <View>
       <MapView
         style={styles.map}
-		// 初始定位
+        // 初始定位
         initialRegion={{
           // 经纬度值，可以通过
           // 获取设备位置信息(Location.getCurrentPositionAsync)
           // 的返回值 location.coords 中获得
-          latitude: 37.78825,	// location.coords.latitude
-          longitude: -122.4324,	// location.coords.longitude
+          latitude: 37.78825, // location.coords.latitude
+          longitude: -122.4324, // location.coords.longitude
 
           // 下列两个属性是经纬度缩放比例
           latitudeDelta: 0.0922,
@@ -900,13 +953,12 @@ const MapViewContainer = (props) => {
         }}
       />
     </View>
-
   );
 };
 
 const styles = StyleSheet.create({
   map: {
-    width: Dimensions.get("window").width,
+    width: Dimensions.get('window').width,
     height: 300,
   },
 });
@@ -924,7 +976,7 @@ export default MapViewContainer;
 
 相比其他两种工作流，这就是 Expo Managed Workflow 的局限性。当然对于刚踏进一只脚进 RN 开发的我们，这个问题可以暂时放一放。（如果需要跟着视频手敲一遍非 Expo 工作流下，使用原生模块的方案，首先还要通过 React Native CLI 初始化项目。这个环境搭建的过程也很痛苦。）
 
-```
+```javascript
 // React Native CLI 环境搭建官方文档地址：https://reactnative.dev/docs/environment-setup
 ```
 
@@ -932,7 +984,7 @@ export default MapViewContainer;
 
 首先安装核心库 react-native-image-picker：
 
-```
+```bash
 yarn add react-native-image-picker
 
 # RN >= 0.60，咪咪写这篇文章时，RN 最新稳定版是 0.69
@@ -952,7 +1004,7 @@ pod 命令由 CocoaPods 提供，CocoaPods 是用 Ruby 写的 Swift 和 Objectiv
 
 安卓的配置权限文件路径：/android/app/src/main/AndroidManifest.xml
 
-```
+```javascript
 <uses-permission android:name="android.permission.CAMERA" />
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -960,7 +1012,7 @@ pod 命令由 CocoaPods 提供，CocoaPods 是用 Ruby 写的 Swift 和 Objectiv
 
 iOS 的配置权限文件路径：/ios/AppWithoutExpo/Info.plist
 
-```
+```javascript
 <key>NSPhotoLibraryUsageDescription</key>
 <string>Give $(PRODUCT_NAME) permission to save photos</string>
 <key>NSCameraUsageDescription</key>
@@ -971,11 +1023,8 @@ iOS 的配置权限文件路径：/ios/AppWithoutExpo/Info.plist
 
 配置结束后，接下来我们就可以在项目中引入并使用了
 
-```
-import {
-  launchCamera,
-  launchImageLibrary
-} from 'react-native-image-picker';
+```javascript
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 ```
 
 相比 Expo Managed Workflow 中，我们只要安装 expo-image-picker 这个库就可以了。
@@ -1012,17 +1061,15 @@ expo.splash：配置加载屏。
 
 发布很复杂，其实还是需要自己亲身经历过才能理解个大概，这里只是跟着老师稍微过一遍一些基础的注意事项。等之后自己需要发布 App 时，还是要跟着官方指南上的要求，来一项项检查并更改。
 
-
-
-第十五章开始都是附加章节，老师后来录制的。 
+第十五章开始都是附加章节，老师后来录制的。
 
 ## 第十五章：新增章节，导航库新版本与之前使用版本的差异
 
-第十五章讲解了导航库 React Navigation@5 的一些知识，我们在第六章学习时使用的是3号大版本。
+第十五章讲解了导航库 React Navigation@5 的一些知识，我们在第六章学习时使用的是 3 号大版本。
 
 首先安装时，包名改掉了，现在叫 @react-navigation/native。
 
-```
+```bash
 npm install @react-navigation/native@5
 
 # 或
@@ -1030,9 +1077,9 @@ npm install @react-navigation/native@5
 yarn add @react-navigation/native@5
 ```
 
-与版本3相比，版本5由之前是基于注册的，现在是基于组件声明的。（新版本下配置路由的方式更接近 Web 开发中的方式）
+与版本 3 相比，版本 5 由之前是基于注册的，现在是基于组件声明的。（新版本下配置路由的方式更接近 Web 开发中的方式）
 
-```
+```javascript
 // 官方示例
 // App.js
 
@@ -1055,7 +1102,7 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name='Home' component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -1066,11 +1113,9 @@ export default App;
 
 由于现在采用声明式方式来配置路由，所以没有 SwitchNavigator 了。现在可以在组件中获取权限，并通过逻辑处理来决定是否展示组件。
 
-版本5中组件的 navigationOptions 由 props.options 代替，从父组件传入；获取路由参数方法，getParams 方法没有了，使用 props.route.params.xxx 代替；设置路由参数方法也改了，setParams 变成 setOptions。
+版本 5 中组件的 navigationOptions 由 props.options 代替，从父组件传入；获取路由参数方法，getParams 方法没有了，使用 props.route.params.xxx 代替；设置路由参数方法也改了，setParams 变成 setOptions。
 
-
-
-除去最后两章节的复习章，第十六章就算是最后一章了。这一章同样也是附加章节，老师补充了 App 通知这块的内容。 
+除去最后两章节的复习章，第十六章就算是最后一章了。这一章同样也是附加章节，老师补充了 App 通知这块的内容。
 
 ## 第十六章：新增章节，使用 App 通知
 
@@ -1084,19 +1129,16 @@ expo install expo-notifications
 
 还记得使用原生模块第一件事是什么吗？没错，获取权限
 
-```
-import React, { useEffect } from "react";
-import { View, Text, StyleSheet, Button, SafeAreaView } from "react-native";
+```javascript
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, Button, SafeAreaView } from 'react-native';
 
-import * as Notifications from "expo-notifications";
+import * as Notifications from 'expo-notifications';
 
 // 获取当前通知权限信息
 async function allowsNotificationsAsync() {
   const settings = await Notifications.getPermissionsAsync();
-  return (
-    settings.granted ||
-    settings.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL
-  );
+  return settings.granted || settings.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL;
 }
 
 // 请求通知权限
@@ -1112,9 +1154,9 @@ async function requestPermissionsAsync() {
 }
 
 // Screen
-const NotificationScreen = (props) => {
+const NotificationScreen = props => {
   useEffect(() => {
-    allowsNotificationsAsync().then((res) => {
+    allowsNotificationsAsync().then(res => {
       if (!res) {
         requestPermissionsAsync();
       }
@@ -1135,19 +1177,19 @@ export default NotificationScreen;
 
 获取权限后，就可以安排一个通知了。注意这里是安排，并不是发送。调用方法后，并不会立刻发送通知
 
-```
+```javascript
 const triggerNotificationHandler = () => {
-    Notifications.scheduleNotificationAsync({
-      content: {
-        title: "一个通知",
-        body: "我是通知body",
-      },
-      trigger: {
-        // 3 秒后通知
-        seconds: 3,
-      },
-    });
-  };
+  Notifications.scheduleNotificationAsync({
+    content: {
+      title: '一个通知',
+      body: '我是通知body',
+    },
+    trigger: {
+      // 3 秒后通知
+      seconds: 3,
+    },
+  });
+};
 ```
 
 触发通知后需要把 App 切换到后台状态，App 在前台时通知栏不会弹出。
@@ -1157,36 +1199,30 @@ const triggerNotificationHandler = () => {
 安卓通知栏
 在 App 中，可以分别在前台和后台运行时，对通知进行监听
 
-```
-import * as Notifications from "expo-notifications";
+```javascript
+import * as Notifications from 'expo-notifications';
 
 // ...
 
 useEffect(() => {
-    // 在后台监听通知，用户点击通知后，才会触发回掉函数
-    const backSubscription = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log('backSubscription ', response);
-    });
+  // 在后台监听通知，用户点击通知后，才会触发回掉函数
+  const backSubscription = Notifications.addNotificationResponseReceivedListener(response => {
+    console.log('backSubscription ', response);
+  });
 
-    // 前台监听通知事件
-    const foreheadSubscription = Notifications.addNotificationReceivedListener(
-      (notification) => {
-        console.log('foreheadSubscription ', notification);
-      }
-    );
-    return () => {
-      backSubscription.remove()
-      foreheadSubscription.remove()
-    };
-
-  }, []);
+  // 前台监听通知事件
+  const foreheadSubscription = Notifications.addNotificationReceivedListener(notification => {
+    console.log('foreheadSubscription ', notification);
+  });
+  return () => {
+    backSubscription.remove();
+    foreheadSubscription.remove();
+  };
+}, []);
 
 // ...
 ```
 
 本地通知如上所述，那如何实现推送通知？考虑到安全问题，作为开发者，我们不能直接发送消息给用户，使用 Google 和 Apple 的推送服务，通过他们的服务器发送消息给用户。
 
-视频演示了使用 Expo 的服务端来推送消息，也是需要注册——获取Token——调用推送消息接口，开发时可以使用官方提供的 Tool Web（https://expo.dev/notifications）来模拟推送消息。
-
-
-
+视频演示了使用 Expo 的服务端来推送消息，也是需要注册——获取 Token——调用推送消息接口，开发时可以使用官方提供的 Tool Web（https://expo.dev/notifications）来模拟推送消息。
